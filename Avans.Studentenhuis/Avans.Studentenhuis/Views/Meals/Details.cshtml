@@ -1,0 +1,73 @@
+﻿@model Avans.Studentenhuis.Data.Models.Meal
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Meal</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DateTime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateTime)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MaxParticipants)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MaxParticipants)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Participants)
+        </dt>
+        <dd>
+
+            @if (Model.HasParticipants)
+            {
+                <ul>
+                    @foreach (var student in Model.Participants)
+                    {
+                        <li>@student.Student.FullName</li>
+                    }
+                </ul>
+            }
+            else
+            {
+               <span class="text-muted">None</span>
+            }
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cook)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cook.FullName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

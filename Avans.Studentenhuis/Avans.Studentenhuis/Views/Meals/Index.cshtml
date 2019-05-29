@@ -1,0 +1,83 @@
+﻿@using Avans.Studentenhuis.Data.Models
+@using Microsoft.AspNetCore.Identity
+
+@model IEnumerable<Avans.Studentenhuis.Data.Models.Meal>
+@inject UserManager<Student> UserManager
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cook)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cook.FullName)
+                </td>
+                <td>
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Details" asp-route-id="@item.Id">More information...</a>
+                    }
+                    else
+                    {
+                        <span><a asp-action="Details" asp-route-id="@item.Id">Details</a> |</span>
+                        <span><a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |</span>
+                        if (item.CanParticipate(await UserManager.GetUserAsync(User)))
+                        {
+                            <span><a asp-action="Participate" asp-route-id="@item.Id">Participate</a> |</span>
+
+                        }
+                        if (item.CanCancel(await UserManager.GetUserAsync(User)))
+                        {
+                            <span><a asp-action="Cancel" asp-route-id="@item.Id">Cancel</a> |</span>
+                        }
+                        <span><a asp-action="Delete" asp-route-id="@item.Id">Delete</a></span>
+                    }
+                </td>
+            </tr>
+        }
+        @if (Model.ToList().Count == 0)
+        {
+            <tr>
+                <td colspan="5">
+                    <p class="text-muted text-center">There are no meals scheduled.</p>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

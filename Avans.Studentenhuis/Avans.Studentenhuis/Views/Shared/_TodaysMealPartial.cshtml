@@ -1,0 +1,21 @@
+﻿@model TodaysMealViewModel
+
+<div class="panel panel-default">
+    <div class="panel-heading">Today's Meal</div>
+    <div class="panel-body">
+        @if (Model?.Meal == null)
+        {
+            <p>There is no meal scheduled for today.</p>
+        }
+        else
+        {
+            <p>
+                @Html.DisplayNameFor(model => model.Meal.DateTime): @Html.DisplayFor(model => model.Meal.DateTime)<br />
+                @Html.DisplayNameFor(model => model.Meal.Name): @Html.DisplayFor(model => model.Meal.Name)<br />
+                @Html.DisplayNameFor(model => model.Meal.Price): @Html.DisplayFor(model => model.Meal.Price)<br />
+                @Html.DisplayNameFor(model => model.Meal.Cook): @Html.DisplayFor(model => model.Meal.Cook.FullName)<br /><br />
+                <a asp-controller="Meals" asp-action="Details" asp-route-id="@Model.Meal.Id">More information...</a>
+            </p>
+        }
+    </div>
+</div>
